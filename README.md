@@ -97,6 +97,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
   * `datetime` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `date` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `time` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
+  * `secret`
   * `hidden`
 * Resource SHOULD provide this property to instruct the Client how to appropriately render this attribute.
 * Client MAY render values for values that it supports. Client MAY determine what attribute types are supported, though MUST  support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`.
@@ -111,7 +112,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MUST contain this property which indicates the standard that this Resource conforms to.
 * Client MUST use this property to determine how to parse and render this Resource.
 
-`meta.sensitive_content: String` Identifies this Resource as being potentially sensitive, and under which clasification.
+`meta.rating: String` Identifies this Resource as being potentially sensitive, and under which clasification.
 * Supported Values:
   * `nudity` denotes that this Resource contains nudity-related content.
   * `violence` denotes that this Resource contains violence-related content.
@@ -148,19 +149,19 @@ If the Client is aware of a better suited Resource for the end-user, the alterna
 
 ## Examples
 
-You can use the [Metadata Debugger](https://metadata-debugger.example.com) (placeholder url) tool to view, manage, and create metadata that conforms with this standard.
+You can use the [Metadata Debugger](https://metadatadebugger.com) (placeholder url) tool to view, manage, and create metadata that conforms with this standard.
 
 <details>
   <summary>Basic Sword: A very simple metadata file.</summary>
   
-  [View in Debugger](https://metadata-debugger.example.com/examples/basic-sword) (placeholder url)
+  [View in Debugger](https://metadatadebugger.com/examples/basic-sword) (placeholder url)
 
   ```json
 {
 	"name": "Basic Sword",
 	"media": [
 		{
-			"uri": "https://example.com/token/1/basic-sword.jpg",
+			"uri": "https://metadatadebugger.com/token/1/basic-sword.jpg",
 			"type": "image/jpeg"
 		}
 	],
@@ -174,26 +175,26 @@ You can use the [Metadata Debugger](https://metadata-debugger.example.com) (plac
 <details>
   <summary>Excalibur: A richly formatted metadata file.</summary>
   
-  [View in Debugger](https://metadata-debugger.example.com/examples/excalibur) (placeholder url)
+  [View in Debugger](https://metadatadebugger.com/examples/excalibur) (placeholder url)
   
   ```json
 {
 	"name": "Excalibur",
 	"description": "A legendary sword wielded by King Arthur, entitling rightful sovereignty of Britain.",
-	"fallback_image": "https://example.com/token/2/excalibur-fallback.jpg",
+	"fallback_image": "https://metadatadebugger.com/token/2/excalibur-fallback.jpg",
 	"media": [
 		{
-			"uri": "https://example.com/token/2/excalibur-sword.png",
+			"uri": "https://metadatadebugger.com/token/2/excalibur-sword.png",
 			"alt": "Image of the excalibur sword",
 			"type": "image/jpeg"
 		},
 		{
-			"uri": "https://example.com/token/2/excalibur-sword-swing.mp4",
+			"uri": "https://metadatadebugger.com/token/2/excalibur-sword-swing.mp4",
 			"alt": "Video of the excalibur sword being swung",
 			"type": "video/mp4"
 		},
 		{
-			"uri": "https://example.com/token/2/excalibur-sword-swing.mp3",
+			"uri": "https://metadatadebugger.com/token/2/excalibur-sword-swing.mp3",
 			"alt": "Audio of the excalibur sword whoosh",
 			"type": "audio/mpeg"
 		},
@@ -225,15 +226,15 @@ You can use the [Metadata Debugger](https://metadata-debugger.example.com) (plac
 		"version": 1,
 		"language": "en",
 		"alternate": {
-			"en": "https://example.com/token/2.json",
-			"en-GB": "https://example.com/token/2/en_gb.json",
-			"es": "https://example.com/token/2/es.json",
-			"es-MX": "https://example.com/token/2/es_mx.json",
-			"jp": "https://example.com/token/2/jp.json",
-			"it": "https://example.com/token/2/it.json",
-			"fr": "https://example.fr/actif/2.json",
-			"de": "https://example.de/anlage/2.json",
-			"zh": "https://example.cn/资产/2.json"
+			"en": "https://metadatadebugger.com/token/2.json",
+			"en-GB": "https://metadatadebugger.com/token/2/en_gb.json",
+			"es": "https://metadatadebugger.com/token/2/es.json",
+			"es-MX": "https://metadatadebugger.com/token/2/es_mx.json",
+			"jp": "https://metadatadebugger.com/token/2/jp.json",
+			"it": "https://metadatadebugger.com/token/2/it.json",
+			"fr": "https://fr.metadatadebugger.com/actif/2.json",
+			"de": "https://de.metadatadebugger.com/anlage/2.json",
+			"zh": "https://cn.metadatadebugger.com/资产/2.json"
 		}
 	}
 }
@@ -243,7 +244,7 @@ You can use the [Metadata Debugger](https://metadata-debugger.example.com) (plac
 <details>
   <summary>Reaper: A dense metadata file, containing localization.</summary>
   
-  [View in Debugger](https://metadata-debugger.example.com/examples/reaper) (placeholder url)
+  [View in Debugger](https://metadatadebugger.com/examples/reaper) (placeholder url)
   
   <details>
    <summary>en.json</summary>
