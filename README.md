@@ -98,6 +98,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
   * `date` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `time` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `secret`
+  * `url` ([RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986))
   * `hidden`
 * Resource SHOULD provide this property to instruct the Client how to appropriately render this attribute.
 * Client MAY render values for values that it supports. Client MAY determine what attribute types are supported, though MUST  support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`.
@@ -141,9 +142,9 @@ If the Client is aware of a better suited Resource for the end-user, the alterna
 
 ## Data Types
 
-`URL` [Uniform Resource Locator (RFC 1738)](https://datatracker.ietf.org/doc/html/rfc1738): any compatible URL (this includes relative URLs) as defined within RFC 1738, is considered a valid input. The Client is solely responsible for determining whether the scheme is supported and MAY omit any values that are unsupported. Clients SHOULD support the `http` and `https` schemes as a minimum. It is also RECOMMENDED that Clients support the `ipfs` and `data` schemes.
+`URL` [Uniform Resource Locator (RFC 1738)](https://datatracker.ietf.org/doc/html/rfc1738): any compatible URL (this includes relative URLs) as defined within RFC 1738 is considered a valid input. The Client is solely responsible for determining whether the scheme is supported and MAY omit any values that are unsupported. Clients SHOULD support the `http` and `https` schemes as a minimum. It is also RECOMMENDED that Clients support the `ipfs` and `data` schemes.
 
-`Language`: placeholder (consider: [RFC 5646](https://datatracker.ietf.org/doc/html/rfc5646))
+`Language` [Tags for Identifying Languages (RFC 5646)](https://datatracker.ietf.org/doc/html/rfc5646): any compatible Language as defined within RFC 5646 is considered a valid input.
 
 `MediaType`: any assigned [Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) by the Internet Assigned Numbers Authority (IANA).
 
