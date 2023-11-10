@@ -1,4 +1,4 @@
-**[ PRIVATE AND CONFIDENTIAL | DRAFT REVISION ]**
+**[ DRAFT REVISION ]**
 
 # Universal Off-Chain Token Metadata Standard
 
@@ -270,8 +270,8 @@ placeholder
 
 ## Copyright
 
-_Current version is **properietary and strictly confidential**._
+_Current version is **properietary**._
 
 (placeholder - needs waiving once we're ready to publish the draft)
 
-**[ PRIVATE AND CONFIDENTIAL | DRAFT REVISION ]**
+**[ DRAFT REVISION ]**
