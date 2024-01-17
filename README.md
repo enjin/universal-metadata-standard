@@ -48,6 +48,10 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MAY supply this property to hint at an external URL related to this token.
 * Client MAY provide a link to this URL.
 
+`group_key: String` An optional, string, that will be used to group tokens with the same value.
+* Resource MAY supply this property to indicate to a Client how to group similar tokens for a given collection.
+* Client SHOULD NOT display this property. Client SHOULD group tokens of the same collection if they have a matching group key. Client MUST NOT group tokens, irrespective of group key, if the collection differs.
+
 `keywords: Array<String>` An array of unique keywords to describe this token.
 * Resource MAY contain this property to help Clients with search functionality better locate their token. It is RECOMMENDED to keep the number of unique keywords to no mare than 20 as Clients are solely responsible for whether keywords may be used and how many are referenced.
 * Client MAY use this property to determine the most appropriate match for a given search term.
