@@ -1,8 +1,8 @@
-# Universal Off-Chain Token Metadata Standard
+# Off-Chain Metadata Standard
 
 - **Authors:** [Brad Bayliss](mailto:brad@bayliss.co.uk)
-- **Status:** Draft
-- **Created:** 2025-07-08
+- **Status:** Final
+- **Created:** 2025-10-13
 
 ## Abstract
 
@@ -57,7 +57,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MAY contain this property. The value MUST correspond to an `image/*` type and is RECOMMENDED to be either `image/bmp`, `image/jpeg` or `image/png` to ensure compatibility with all Clients.
 * Client MAY display the image. Client MAY support animated image formats.
 
-`media: Array<Object>` An array of objects containing media (image; video; and/or model) files that are used to represent this token. The order of this array is important as the Client should present any supported media resources in that order. 
+`media: Array<Object>` An array of objects containing media (image; video; audio; and/or model) files that are used to represent this token. The order of this array is important as the Client should present any supported media resources in that order. 
 * Resource SHOULD provide a list of media resources.
 * Client SHOULD display at least one media resource. The Client MAY ignore media types that it is unable to support. The Client SHOULD present media in the order they're listed within the array.
 
@@ -66,16 +66,16 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Client MUST use this property to retrieve the media associated with this token.
 
 `media[n].type: MediaType` A valid IANA Media Type used to indicate the type of media resource.
-* Resource SHOULD supply the corresponding [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) associated with the media supplied within the `media[n].url` property.
+* Resource SHOULD supply the corresponding IANA Media Type associated with the media supplied within the `media[n].url` property.
 * Client MAY use this property to filter media unsupported by the Client or to determine how best to render the media.
 
 `media[n].alt: String` Alternative text used to describe the media supplied within the `media[n].url` property.
 * Resource MAY supply a short string that describes the media file. It is RECOMMENDED that this property is specified to improve accessibility.
 * Client SHOULD use this property as a text alternative to the media file.
 
-`attributes: Object<String,Object<>>` An object containing custom attributes that may be interpreted by the Client.
-* Resource MAY provide a list of attributes that can be optionally displayed by the Client and is a simply key/value pair. The value MAY be an object that itself MUST contain a key named `value`, additional data may be contained within this object.
-* Client MAY parse the attributes to provide a richer experience to the end user.
+`attributes: Object<String,Object<String,String|Float|Integer|Boolean|null>>` An object containing custom attributes that may be interpreted by the Client.
+* Resource MAY provide a list of attributes that can be optionally displayed by the Client and is a simple key/value pair. The value MAY be an object that itself MUST contain a key named `value`, additional data may be contained within this object.
+* Client MAY parse the attributes to provide a richer experience to the end-user.
 
 `attributes[key].display_name: String` A custom display name to be used instead of the key.
 * Resource MAY supply this property to override the representation of the key for the attribute.
@@ -86,7 +86,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Client SHOULD respect this value, when supplied, in favour of the value used for the attribute.
 
 `attributes[key].value: String` The value associated with this attribute.
-* Resource MUST supply this property.
+* Resource MUST supply this property, if an attribute is supplied.
 * Client MAY display this property.
 
 `attributes[key].type: String` The type of attribute.
@@ -100,12 +100,12 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
   * `time` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `url` ([RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986))
   * `hidden`
-* Resource SHOULD provide this property to instruct the Client how to appropriately render this attribute.
-* Client MAY render values for values that it supports. Client MAY determine what attribute types are supported, though MUST support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`.
+* Resource SHOULD provide this property to instruct the Client how to appropriately render this attribute. Custom types may be used, but they should be prefixed by `x-` (such as `x-progress-bar`) to ensure they don't conflict with the behaviours of future attribute types that may be standardised.
+* Client MAY render values for any type that it supports. Client MAY determine what attribute types are supported, though MUST support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`.
 
 `meta: Object` Meta about this Resource.
 * Resource MUST supply this property as it serves as a hint that the Resource is compliant with the Token Metadata Standard.
-* Client MUST parse this property.
+* Client MUST parse this property althought it is OPTIONAL whether it is rendered.
 
 `meta.version: Float` The version of the standard that this Resource conforms to.
 * Supported Values:
@@ -113,7 +113,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MUST contain this property which indicates the standard that this Resource conforms to.
 * Client MUST use this property to determine how to parse and render this Resource.
 
-`meta.rating: String` Identifies this Resource as being potentially sensitive, and under which clasification.
+`meta.rating: String` Identifies this Resource as being potentially sensitive to certain audiences, and under which clasification.
 * Supported Values:
   * `nudity` denotes that this Resource contains nudity-related content.
   * `violence` denotes that this Resource contains violence-related content.
@@ -128,9 +128,9 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource SHOULD contain this property to indicate the language of this Resource.
 * Client MAY display this property.
 
-`meta.alternate: Object<Language,URL>` An object containing alternate Resource files for different languages.
+`meta.alternate: Object<Language,URL>` An object containing alternate variants of the Resource, specifically for different languages.
 * Resource MAY contain this property to identify alternate versions of this Resource in various languages.
-* Client SHOULD identify the Resource that closest matches the end user's language settings and retrieve the most specific Resource for rendering. Refer to [Alternate Resources (Internationalisation)](#metadata-alternate-resources-internationalisation) for more information.
+* Client SHOULD identify the Resource that closest matches the end-user's language settings and retrieve the most specific Resource for rendering. Refer to [Alternate Resources (Internationalisation)](#metadata-alternate-resources-internationalisation) for more information.
  
 ### Alternate Resources (Internationalisation)
 
@@ -138,7 +138,7 @@ The `meta.alternate` property, defined within the top-level Resource, indicates 
 
 The Client is responsible for determining the best language for the end-user who is viewing the Resource. This MAY come in the form of automatically detecting the best language based on request information such as a header; and/or geolocation data, or it MAY come in the form of a manual interaction such as user selection.
 
-If the Client is aware of a better suited Resource for the end-user, the alternate Resource SHOULD be retrieved; parsed; and rendered instead. In order to prevent a potential Denial of Service (DoS) attack, the Client MUST NOT follow more than one-level deep from the top-level Resource.
+If the Client is aware of a better suited Resource for the end-user, the alternate Resource SHOULD be retrieved; parsed; and rendered instead. In order to prevent a potential Denial of Service (DoS) attack, the Client MUST NOT follow more than one-level deep from the top-level Resource. The entirety of the Resource should be inferred exclusively from the Resource that is best suited for the end-user.
 
 ## Data Types
 
