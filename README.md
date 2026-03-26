@@ -20,8 +20,8 @@ Finally, the concept of _The Metaverse_ is one that changes day-by-day. It is fo
 
 ## Terminology
 
- * `Resource` refers to a Metadata Resource File.
- * `Client` refers to an application responsible for the parsing and rendering of a Resource.
+* `Resource` refers to a Metadata Resource File.
+* `Client` refers to an application responsible for the parsing and rendering of a Resource.
 
 ## Specification
 
@@ -73,7 +73,7 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MAY supply a short string that describes the media file. It is RECOMMENDED that this property is specified to improve accessibility.
 * Client SHOULD use this property as a text alternative to the media file.
 
-`attributes: Object<String,Object<String,String|Float|Integer|Boolean|null>>` An object containing custom attributes that may be interpreted by the Client.
+`attributes: Object<String,Object<String,String|Float|Integer|Boolean|Array|null>>` An object containing custom attributes that may be interpreted by the Client.
 * Resource MAY provide a list of attributes that can be optionally displayed by the Client and is a simple key/value pair. The value MAY be an object that itself MUST contain a key named `value`, additional data may be contained within this object.
 * Client MAY parse the attributes to provide a richer experience to the end-user.
 
@@ -85,8 +85,8 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
 * Resource MAY supply this property to override the representation of the value for the attribute.
 * Client SHOULD respect this value, when supplied, in favour of the value used for the attribute.
 
-`attributes[key].value: String` The value associated with this attribute.
-* Resource MUST supply this property, if an attribute is supplied.
+`attributes[key].value: String|Float|Integer|Boolean|Array|null` The value associated with this attribute.
+* Resource MUST supply this property, if an attribute is supplied. If `type` is set to `array`, this property MUST be a valid JSON Array.
 * Client MAY display this property.
 
 `attributes[key].type: String` The type of attribute.
@@ -95,13 +95,14 @@ All Resources MUST consist solely of a valid JSON payload, as defined in [RFC 82
   * `integer`
   * `float`
   * `boolean`
+  * `array`
   * `datetime` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `date` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `time` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))
   * `url` ([RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986))
   * `hidden`
 * Resource SHOULD provide this property to instruct the Client how to appropriately render this attribute. Custom types may be used, but they should be prefixed by `x-` (such as `x-progress-bar`) to ensure they don't conflict with the behaviours of future attribute types that may be standardised.
-* Client MAY render values for any type that it supports. Client MAY determine what attribute types are supported, though MUST support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`.
+* Client MAY render values for any type that it supports. Client MAY determine what attribute types are supported, though MUST support `string` (as it is the default value if this proeprty is omitted) as well as the `hidden` type. Client SHOULD NOT show the attribute if the type is `hidden`. If `type` is `array`, the Client SHOULD render the individual elements of the array as discrete items (e.g., tags or badges).
 
 `meta: Object` Meta about this Resource.
 * Resource MUST supply this property as it serves as a hint that the Resource is compliant with the Token Metadata Standard.
@@ -259,6 +260,34 @@ If the Client is aware of a better suited Resource for the end-user, the alterna
 		"version": 1.0,
 		"language": "en"
 	}
+}
+  ```
+</details>
+
+<details>
+  <summary>Multiverse Shield: Introducing array attributes for interoperability.</summary>
+
+  The use of the `array` type allows a token to specify multiple values for a single attribute. This is specifically useful for lists or tagging systems that Clients can use for dynamic filtering and richer UI rendering (e.g., displaying values as badges).
+  
+  ```json
+{
+  "name": "Multiverse Shield",
+  "description": "A high-tech energy shield compatible with multiple virtual worlds.",
+  "attributes": {
+    "usable_in": {
+      "display_name": "Compatible Games",
+      "type": "array",
+      "value": ["Space MMO", "Fantasy Realm", "Cyber Racers"]
+    },
+    "rarity": {
+      "value": "Legendary",
+      "type": "string"
+    }
+  },
+  "meta": {
+    "version": 1.0,
+    "language": "en"
+  }
 }
   ```
 </details>
